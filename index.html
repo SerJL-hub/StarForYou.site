@@ -213,6 +213,80 @@
             animation: pulse 1.5s infinite;
         }
 
+        /* ----- WHAT'S NEW UPDATE MODAL ----- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 6000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .modal-card {
+            max-width: 480px;
+            width: 100%;
+            padding: 2.2rem 2rem;
+            text-align: left;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(139, 92, 246, 0.25);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-top: 8px;
+            background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .update-list {
+            list-style: none;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .update-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .update-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .update-list strong {
+            color: #f8fafc;
+            font-size: 0.95rem;
+            display: block;
+            margin-bottom: 2px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .update-list p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
         /* ----- Main Page / Dashboard ----- */
         #main-page {
             display: none;
@@ -554,7 +628,48 @@
         <p class="intro-text" id="intro-msg">INITIALIZING SYSTEM...</p>
     </div>
 
-    <!-- 3. MAIN DASHBOARD -->
+    <!-- 3. WHAT'S NEW UPDATE MODAL (Appears after unlock) -->
+    <div id="update-modal" class="modal-overlay">
+        <div class="glass-panel modal-card">
+            <div class="modal-header">
+                <span class="badge-new">PHASE 5 UPDATE</span>
+                <h2>What's New ✨</h2>
+            </div>
+            <ul class="update-list">
+                <li>
+                    <span class="update-icon">💖</span>
+                    <div>
+                        <strong>5th Monthsary Letter & Bouquet</strong>
+                        <p>A new heartfelt letter & special digital bouquet celebrating our 5th month together.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="update-icon">📁</span>
+                    <div>
+                        <strong>Memory Vault Repository</strong>
+                        <p>Direct secure link to our Google Drive pictures and videos.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="update-icon">🎵</span>
+                    <div>
+                        <strong>Refreshed Playlist</strong>
+                        <p>Added special tracks and updated background music players.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="update-icon">⚡</span>
+                    <div>
+                        <strong>Phase 5 Dashboard Sync</strong>
+                        <p>Enhanced visuals, ambient firefly effects, and live station clock.</p>
+                    </div>
+                </li>
+            </ul>
+            <button class="btn-glow" onclick="closeUpdateModal()">Explore Phase 5 →</button>
+        </div>
+    </div>
+
+    <!-- 4. MAIN DASHBOARD -->
     <div id="main-page">
         <div id="home-view">
             <div class="header-section">
@@ -624,16 +739,27 @@
             </div>
             <div id="main-letter-5" class="paper-letter">
                 <h2 class="letter-greeting">My Dearest Mahal,</h2>
-                <div class="letter-body">Happy 5th Monthsary, mahal ko! 💖
+                <div class="letter-body">Hi mahal, ginagawa ko po ito ngayon, August 10 HAHAHAHA. Actually, nakalimutan ko po magbayad ng website natin kaya ayun, hindi ko na siya ma-edit HAHAHAHA. Kaya gagawa po muna ako ng paraan kahit papaano may maibigay ako sa’yo para sa monthsary natin. 🥹
 
-Limang buwan na tayong magkasama, at sa bawat araw na lumilipas, lalong lumalalim ang pagmamahal at pagpapasalamat ko sa’yo. Maraming salamat sa patuloy na pag-unawa, pagmamahal, at sa pagiging tahanan ng puso ko.
+Nakakalimang buwan na pala po tayo noh HAHAHAHA. Limang buwan na puno ng saya, tampuhan, selos, misunderstanding, iyak, tawanan, lambingan, at kung ano ano pa. Ang dami na rin nating pinagdaanan sa loob ng limang buwan, pero kahit ganoon, nandito pa rin tayo. Alam ko naman na nagsisimula pa lang tayo patungo sa panghabangbuhay na hinihiling ko. Sana samahan mo pa rin ako habang tinatahak natin yung journey na ito. Sana huwag kang mapagod mahalin ako, intindihin ako, at unawain ako kahit minsan mahirap akong intindihin.
 
-Kahit ano man ang dumating na pagsubok o mga araw na napapagod tayo, gusto kong malaman mo na palagi kong pipiliin na hawakan ang kamay mo. Ikaw ang aking pahinga at paboritong bahagi ng bawat araw ko.
+Hindi naman ako perfect na lalaki mahal. Hindi ko palaging natutupad lahat ng sinasabi ko at hindi ko rin palaging naibibigay lahat ng gusto mo, lalo na ngayon na parang nawawala muna yung kakayahan ko para maibigay sa’yo yung mga gusto mo at cravings mo. Pero kahit ganoon, gusto kong malaman mo na hindi ibig sabihin nun na nababawasan yung pagmamahal ko sa’yo. Lagi akong gagawa ng paraan. Lagi akong magta-try. Kahit maliit lang, kahit simple lang, basta galing sa puso ko at para sa’yo, gagawin ko.
 
-Pangako ko sa'yo na patuloy akong magiging mas mabuting partner para sa'yo. Nandidito lang ako para suportahan ka sa lahat ng mga pangarap mo. Mahal na mahal kita, kahapon, ngayon, at sa lahat ng susunod pang mga buwan at taon.
+Habang ginagawa ko po ito, actually nagpapatulong pa ako para mapagawa itong simpleng surprise para sa’yo HAHAHAHA. Hindi ko alam kung kapag nakita mo ito masasayahan ka ba, magugustuhan mo ba, o matutuwa ka ba. Pero sa totoo lang, hindi ko na muna iniisip kung magiging perfect ba siya. Ang mahalaga sa akin, maiparamdam ko sa’yo kahit kaunti kung gaano kita kamahal. Kasi mahal, yun naman talaga ang totoo. Mahal na mahal kita, higit pa sa kaya kong ipaliwanag sa mga salita.
 
-Happy 5th Monthsary ulit, mahal ko! Mwahhh! 💜✨</div>
+Pasensya na rin po mahal kung minsan nag-o-overthink ako, nagseselos ako, o nagiging angry bird kay Kalbol Seaman, kay Sam, at kay Sam 2 HAHAHAHA. Alam kong minsan sobra ako at baka nakakapagod din akong intindihin. Pero sana lagi mong tandaan na kahit nagseselos ako minsan, may tiwala ako sa’yo. Hindi mawawala yung tiwala ko sa’yo at hindi rin magbabago yung pagmamahal ko sa’yo dahil lang sa mga bagay na naiisip ko.
+
+Mahal, gusto ko lang na lagi mong tandaan na ikaw yung taong pinili kong mahalin. At kahit maraming misunderstandings na darating, sana piliin pa rin natin ang isa’t isa. Hindi ko ipinapangako na magiging perfect lahat, pero ipinapangako ko na lagi akong susubok, lagi akong matututo, at lagi kong pipiliing ayusin kung ano man yung kailangan nating ayusin.
+
+Alam ko na pinakita mo sa akin kung paano ka mahalin. Pinaramdam mo sa akin kung paano maging deserving sa pagmamahal mo, kung paano intindihin ka, kung paano alagaan yung puso mo, at kung paano iparamdam sa isang tao na mahalaga siya. Kaya gusto kong ibalik sa’yo lahat ng pagmamahal na binigay mo sa akin, hindi dahil kailangan kong suklian, kundi dahil yun yung deserve mo.
+
+Happy 5th monthsary sa atin, mahal ko. 🥹❤️ Limang buwan pa lang ito, pero sana marami pa tayong buwan, taon, at memories na pagsasaluhan. Sana kahit dumating yung mga araw na mahirap, huwag tayong basta susuko. Hawakan lang natin ang isa’t isa at sabay nating ayusin.
+
+Hindi ko alam kung ano ang mangyayari sa future, pero ang alam ko, gusto kitang makasama habang ginagawa natin yung future na iyon. Mahal na mahal kita, mahal. At kung may isang bagay na gusto kong hindi magbago kahit kailan, yun ay yung pagmama hal ko sa’yo. ❤️</div>
                 <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
+                <div class="bouquet-action">
+                    <a href="https://digibouquet.vercel.app/bouquet/9f6d29f3-1b21-4f62-a6c8-6fce580cdc8c" target="_blank" class="btn-bouquet">💐 Open 5th Monthsary Bouquet</a>
+                </div>
             </div>
         </div>
 
@@ -742,7 +868,7 @@ Ito ang pinaka sigurado at tapat kong pangako sa’yo: hindi kita iiwan, mahal. 
 Happy 2nd Monthsary, mahal ko. Nandito lang ako, palagi at habang buhay.</div>
                 <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
                 <div class="bouquet-action">
-                    <a href="https://digibouquet.net/create-bouquet?b=JTdCJTIyZiUyMiUzQSU1QiUyMm9yY2hpZCUyMiUyQyUyMmNhbWVsbGlhJTIyJTJDJTIyZGFpc3klMjIlMkMlMjJsb3R1cyUyMiUtQyUyMnR1bGlwJTIyJTJDJTIycGVvbnklMjIlMkMlMjJyb3NlJTIyJTJDJTIybGlseSUyMiU1RCUyQyUyMmSelection%202" target="_blank" class="btn-bouquet">💐 Open 2nd Monthsary Bouquet</a>
+                    <a href="https://digibouquet.net/create-bouquet?b=JTdCJTIyZiUyMiUzQSU1QiUyMm9yY2hpZCUyMiUyQyUyMmNhbWVsbGlhJTIyJTJDJTIyZGFpc3klMjIlMkMlMjJsb3R1cyUyMiUtQyUyMnR1bGlwJTIyJTJDJTIypGVvbnklMjIlMkMlMjJyb3NlJTIyJTJDJTIybGlseSUyMiU1RCUyQyUyMmSelection%202" target="_blank" class="btn-bouquet">💐 Open 2nd Monthsary Bouquet</a>
                 </div>
             </div>
         </div>
@@ -812,6 +938,9 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                     <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/7aW2GrNlteWTwQZxX6LNjT?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     
                     <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/13QQ8OerNguc4eR4qtd6SQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+                    <!-- Newly Added Track -->
+                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/1iphKsRTqRl7KZeOZwILGF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
 
                 <p style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: var(--gold); margin-top: 35px; line-height: 1.6;">
@@ -902,6 +1031,8 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                                 document.getElementById('main-page').style.display = 'block';
                                 setTimeout(() => document.getElementById('main-page').style.opacity = '1', 50);
                                 initApp();
+                                // Trigger 'What's New' Modal after unlock
+                                document.getElementById('update-modal').style.display = 'flex';
                             }, 1000);
                         }, 1200);
                     }
@@ -917,6 +1048,17 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                 pinInput.value = "";
                 pinInput.focus();
             }
+        }
+
+        // Close 'What's New' Modal
+        function closeUpdateModal() {
+            const modal = document.getElementById('update-modal');
+            modal.style.opacity = '0';
+            modal.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.opacity = '1';
+            }, 300);
         }
 
         // Navigation
