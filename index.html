@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Romeo // Mahal - Phase 5</title>
+    <title>Project Romeo // Mahal - Lunar Phase</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,600&family=Inter:wght@300;400;500&family=Dancing+Script:wght@500;600;700&family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #8b5cf6;
             --primary-glow: rgba(139, 92, 246, 0.5);
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.5);
-            --bg-dark: #090a16;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.12);
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --deep-violet: #4c1d95;
+            --bg-dark: #030014;
+            --bg-card: rgba(15, 10, 36, 0.55);
+            --border-glass: rgba(168, 85, 247, 0.25);
+            --border-glass-hover: rgba(56, 189, 248, 0.5);
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --gold: #38bdf8;
-            --parchment: #fafafa;
-            --crimson: #4c1d95;
+            --text-muted: #cbd5e1;
+            --moonlight: #f3e8ff;
+            --gold: #fef08a;
+            --parchment: #faf5ff;
+            --crimson: #3b0764;
             --error-red: #f43f5e;
         }
 
@@ -31,45 +34,55 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #2e1065 0%, #0f172a 60%, #070a17 100%);
-            background-attachment: fixed;
+            background-color: var(--bg-dark);
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Ambient Stars / Particles */
-        .firefly {
+        #galaxy-canvas {
             position: fixed;
-            width: 3px;
-            height: 3px;
-            background: #cbd5e1;
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
             pointer-events: none;
-            box-shadow: 0 0 10px 2px var(--accent);
-            opacity: 0.6;
-            z-index: 1;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translate(calc(-60px + 120px * var(--dir-x)), calc(-60px + 120px * var(--dir-y))) scale(0.4); opacity: 0; }
+        .moon-container {
+            position: fixed;
+            top: 6%;
+            right: 10%;
+            width: 170px;
+            height: 170px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #e9d5ff 40%, #a855f7 70%, #4c1d95 98%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 50px 15px rgba(168, 85, 247, 0.4),
+                0 0 100px 35px rgba(56, 189, 248, 0.25),
+                inset -20px -20px 40px rgba(15, 10, 36, 0.8);
+            z-index: 0;
+            opacity: 0.88;
+            animation: moonPulse 8s infinite alternate ease-in-out;
         }
 
-        /* Glassmorphism Panel */
+        @keyframes moonPulse {
+            0% { box-shadow: 0 0 50px 15px rgba(168, 85, 247, 0.4), 0 0 100px 35px rgba(56, 189, 248, 0.25); }
+            100% { box-shadow: 0 0 70px 25px rgba(168, 85, 247, 0.6), 0 0 130px 50px rgba(56, 189, 248, 0.4); }
+        }
+
         .glass-panel {
             background: var(--bg-card);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
             border: 1px solid var(--border-glass);
             border-radius: 24px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
-        /* ----- LOGIN PAGE ----- */
         #landing-page {
             position: fixed; 
             top: 0; left: 0; 
@@ -79,17 +92,19 @@
             align-items: center;
             z-index: 4000;
             padding: 20px;
-            background: radial-gradient(circle at center, rgba(30, 27, 75, 0.9) 0%, rgba(7, 10, 23, 0.98) 100%);
+            background: radial-gradient(circle at center, rgba(15, 10, 36, 0.75) 0%, rgba(3, 0, 20, 0.95) 100%);
+            backdrop-filter: blur(12px);
         }
 
         .login-card {
-            padding: 3.5rem 2.5rem;
+            padding: 4rem 3rem;
             text-align: center;
-            max-width: 420px;
+            max-width: 440px;
             width: 100%;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(139, 92, 246, 0.15);
             transition: transform 0.3s ease;
+            background: rgba(15, 10, 36, 0.75);
+            border: 1px solid var(--border-glass);
         }
 
         .login-card.shake {
@@ -103,69 +118,69 @@
         }
 
         .lock-icon-wrapper {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
-            border: 1px solid rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(56, 189, 248, 0.25));
+            border: 1px solid rgba(168, 85, 247, 0.4);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            color: #a7f3d0;
-            box-shadow: 0 0 20px var(--primary-glow);
+            font-size: 2rem;
+            box-shadow: 0 0 30px var(--primary-glow), inset 0 0 15px rgba(255,255,255,0.2);
         }
 
         .login-card h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            margin-bottom: 6px;
-            background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
+            font-size: 2.4rem;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #c084fc, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .status-text {
-            font-size: 0.72rem;
-            color: var(--gold);
-            letter-spacing: 3px;
-            margin-bottom: 2rem;
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            margin-bottom: 2.5rem;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .pin-input {
             width: 100%;
-            padding: 1.1rem 1rem;
-            background: rgba(3, 7, 18, 0.7);
-            border: 1px solid var(--border-glass);
+            padding: 1.2rem 1rem;
+            background: rgba(3, 0, 20, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 14px;
             color: #fff;
             text-align: center;
-            letter-spacing: 12px;
-            font-size: 1.6rem;
+            letter-spacing: 14px;
+            font-size: 1.8rem;
             outline: none;
             transition: all 0.3s ease;
             font-family: 'Orbitron', monospace;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.7);
         }
 
         .pin-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            background: rgba(3, 7, 18, 0.9);
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent-glow), inset 0 2px 10px rgba(0,0,0,0.7);
+            background: rgba(3, 0, 20, 0.95);
         }
 
         .error-message {
             min-height: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--error-red);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-family: 'Inter', sans-serif;
             letter-spacing: 1px;
             opacity: 0;
@@ -178,47 +193,47 @@
 
         .btn-glow {
             width: 100%;
-            padding: 1.1rem;
-            border: none;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
             color: white;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 4px 15px var(--primary-glow);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
         }
 
         .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--primary-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px var(--primary-glow);
+            border-color: rgba(255,255,255,0.4);
+            background: linear-gradient(135deg, #9333ea, #0284c7);
         }
 
-        /* ----- Intro Sequence ----- */
         #intro-sequence {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #030712; z-index: 5000; display: none;
+            background: var(--bg-dark); z-index: 5000; display: none;
             justify-content: center; align-items: center; text-align: center;
         }
         
         .intro-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--gold);
-            letter-spacing: 4px;
+            font-size: 1.2rem;
+            color: var(--accent);
+            letter-spacing: 5px;
             animation: pulse 1.5s infinite;
         }
 
-        /* ----- WHAT'S NEW UPDATE MODAL ----- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(3, 0, 20, 0.85);
+            backdrop-filter: blur(16px);
             z-index: 6000;
             display: none;
             justify-content: center;
@@ -228,228 +243,242 @@
         }
 
         .modal-card {
-            max-width: 480px;
+            max-width: 500px;
             width: 100%;
-            padding: 2.2rem 2rem;
+            padding: 2.5rem;
             text-align: left;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(139, 92, 246, 0.25);
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(15, 10, 36, 0.85);
+            border: 1px solid var(--border-glass);
         }
 
         .modal-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .modal-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-top: 8px;
-            background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
+            font-size: 2.2rem;
+            margin-top: 10px;
+            background: linear-gradient(to right, #ffffff, #c084fc, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .update-list {
             list-style: none;
-            margin-bottom: 1.8rem;
+            margin-bottom: 2.5rem;
             display: flex;
             flex-direction: column;
-            gap: 1.1rem;
+            gap: 1.2rem;
         }
 
         .update-list li {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            padding: 12px 16px;
+            gap: 16px;
+            background: rgba(139, 92, 246, 0.08);
+            padding: 14px 18px;
             border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .update-list li:hover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: var(--accent);
         }
 
-        .update-icon {
-            font-size: 1.5rem;
-            line-height: 1;
-        }
+        .update-icon { font-size: 1.5rem; line-height: 1; }
+        .update-list strong { color: #f8fafc; font-size: 1rem; display: block; margin-bottom: 4px; font-family: 'Poppins', sans-serif; }
+        .update-list p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
 
-        .update-list strong {
-            color: #f8fafc;
-            font-size: 0.95rem;
-            display: block;
-            margin-bottom: 2px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .update-list p {
-            color: var(--text-muted);
-            font-size: 0.82rem;
-            line-height: 1.4;
-        }
-
-        /* ----- Main Page / Dashboard ----- */
         #main-page {
             display: none;
-            padding: 4rem 1.5rem;
+            padding: 5rem 1.5rem;
             opacity: 0;
             transition: opacity 1.2s ease;
             position: relative;
             z-index: 10;
-            max-width: 920px;
+            max-width: 960px;
             margin: 0 auto;
         }
 
         .header-section {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4.5rem;
+            position: relative;
         }
 
         .sync-text {
-            color: var(--gold);
+            color: var(--accent);
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
         .main-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-style: italic;
-            margin-bottom: 2rem;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            background: linear-gradient(to right, #ffffff, #c084fc, #93c5fd);
+            margin-bottom: 2.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            background: linear-gradient(to right, #ffffff, #d8b4fe, #7dd3fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Timer */
         .timer-container {
             display: flex;
             justify-content: center;
-            gap: 1.2rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .timer-unit {
-            background: rgba(59, 130, 246, 0.08);
-            padding: 1.2rem 1rem;
+            background: linear-gradient(180deg, rgba(30, 15, 60, 0.65), rgba(15, 10, 36, 0.85));
+            padding: 1.5rem 1.2rem;
             border-radius: 18px;
-            min-width: 85px;
+            min-width: 95px;
             text-align: center;
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6), inset 0 2px 10px rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .timer-unit:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .timer-unit::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         .timer-unit span {
             display: block;
-            font-size: 2.2rem;
-            color: #fff;
+            font-size: 2.4rem;
+            color: #f8fafc;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            text-shadow: 0 0 12px var(--accent-glow);
+            text-shadow: 0 0 15px var(--accent-glow);
         }
 
         .timer-unit label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            letter-spacing: 2px;
-            margin-top: 6px;
+            letter-spacing: 3px;
+            margin-top: 8px;
             display: block;
+            text-transform: uppercase;
         }
 
-        /* Gift Grid */
         .gift-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.2rem;
-            margin-top: 3.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
         }
 
         .menu-btn {
-            background: var(--bg-card);
+            background: linear-gradient(135deg, rgba(25, 15, 50, 0.6), rgba(10, 5, 25, 0.7));
             border: 1px solid var(--border-glass);
             color: white;
-            padding: 1.5rem 1.8rem;
+            padding: 1.6rem 2rem;
             border-radius: 18px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: 'Poppins', sans-serif;
             text-align: left;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
         .menu-btn::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--accent));
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
+            top: 0; left: 0; width: 5px; height: 100%;
+            background: linear-gradient(180deg, var(--accent), var(--primary));
+            opacity: 0.6;
+            transition: opacity 0.3s ease, width 0.3s ease;
         }
 
         .menu-btn:hover {
-            background: rgba(139, 92, 246, 0.12);
-            border-color: rgba(139, 92, 246, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, rgba(45, 25, 80, 0.85), rgba(20, 10, 45, 0.95));
+            border-color: var(--border-glass-hover);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(139, 92, 246, 0.3);
         }
 
         .menu-btn:hover::before {
-            transform: scaleY(1);
+            opacity: 1;
+            width: 8px;
         }
 
         .menu-btn span:first-child {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
         }
 
         .badge-new {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 1px;
-            box-shadow: 0 0 10px var(--accent-glow);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        /* ----- Views / Letters ----- */
         .gift-view {
             display: none;
-            max-width: 820px;
+            max-width: 860px;
             margin: 0 auto;
             animation: fadeIn 0.6s ease;
         }
 
         .back-btn {
-            background: transparent;
+            background: rgba(139, 92, 246, 0.15);
             border: 1px solid var(--border-glass);
             color: var(--text-muted);
-            padding: 10px 25px;
+            padding: 12px 28px;
             border-radius: 30px;
             cursor: pointer;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            transition: 0.3s;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            backdrop-filter: blur(8px);
         }
 
         .back-btn:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(139, 92, 246, 0.35);
             color: white;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateX(-4px);
         }
 
-        /* Wax Seal */
         .seal-wrapper {
             text-align: center;
             cursor: pointer;
@@ -460,71 +489,72 @@
         }
 
         .wax-seal {
-            width: 105px;
-            height: 105px;
-            background: linear-gradient(135deg, #5b21b6, #1e1b4b);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #6b21a8, #311042);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(91, 33, 182, 0.5), inset 0 0 12px rgba(0,0,0,0.6);
-            border: 3px solid #3b0764;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 3.5rem;
+            color: #f3e8ff;
+            box-shadow: 0 15px 40px rgba(107, 33, 168, 0.6), inset 0 0 25px rgba(0,0,0,0.9);
+            border: 4px solid #3b0764;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
 
-        .wax-seal::after {
-            content: '♥';
-        }
+        .wax-seal::after { content: '♥'; text-shadow: 0 2px 10px rgba(255,255,255,0.3); }
 
         .seal-wrapper:hover .wax-seal {
-            transform: scale(1.15) rotate(12deg);
-            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 20px 50px rgba(168, 85, 247, 0.6);
+            border-color: #8b5cf6;
         }
 
         .seal-hint {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
+            font-size: 1.9rem;
             color: var(--gold);
-            margin-top: 25px;
-            opacity: 0.9;
+            margin-top: 30px;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(254, 240, 138, 0.3);
         }
 
-        /* Letter Styling */
         .paper-letter {
             display: none;
             background: var(--parchment);
-            color: #1e293b;
-            padding: 4rem 3.5rem;
-            border-radius: 6px;
-            line-height: 1.8;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            color: #0f172a;
+            padding: 4.5rem 4rem;
+            border-radius: 16px;
+            line-height: 1.9;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 80px rgba(168, 85, 247, 0.2);
             transform-origin: top;
             animation: unfold 1.2s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
+            border: 1px solid rgba(216, 180, 254, 0.3);
         }
 
         .letter-greeting {
             font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--crimson);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .letter-body {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             white-space: pre-wrap;
             text-align: justify;
             font-family: 'Inter', sans-serif;
             font-weight: 400;
+            color: #1e1b4b;
         }
 
         .letter-signoff {
-            margin-top: 3rem;
+            margin-top: 3.5rem;
             font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             text-align: right;
             color: var(--crimson);
             line-height: 1.2;
@@ -532,86 +562,95 @@
 
         .bouquet-action {
             text-align: center;
-            border-top: 1px dashed rgba(0,0,0,0.2);
-            padding-top: 2rem;
-            margin-top: 3rem;
+            border-top: 1px dashed rgba(107, 33, 168, 0.25);
+            padding-top: 2.5rem;
+            margin-top: 3.5rem;
         }
 
         .btn-bouquet {
             display: inline-block;
-            padding: 1.1rem 2.2rem;
-            background: linear-gradient(135deg, #7b2cbf, #2563eb);
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, #7e22ce, #0284c7);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 10px 25px rgba(126, 34, 206, 0.5);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .btn-bouquet:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 15px 35px rgba(58, 134, 255, 0.6);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.6);
+            background: linear-gradient(135deg, #9333ea, #0369a1);
         }
 
-        /* Q&A / Interview Styling */
         .qa-block {
-            margin-bottom: 2rem;
-            padding: 1.6rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 14px;
-            border-left: 3px solid var(--accent);
+            margin-bottom: 2.5rem;
+            padding: 1.8rem;
+            background: rgba(15, 10, 36, 0.6);
+            border-radius: 18px;
+            border-left: 4px solid var(--primary);
+            box-shadow: inset 0 2px 15px rgba(0,0,0,0.4);
+            border-top: 1px solid var(--border-glass);
+            border-right: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
         }
 
         .qa-q {
-            color: var(--gold);
+            color: #f8fafc;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
         }
 
         .qa-a {
             color: var(--text-muted);
-            line-height: 1.7;
+            line-height: 1.8;
+            font-size: 1.05rem;
         }
 
-        /* Keyframe Animations */
         @keyframes unfold { 
             0% { transform: rotateX(-90deg); opacity: 0; } 
             100% { transform: rotateX(0deg); opacity: 1; } 
         }
         @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(10px); } 
+            from { opacity: 0; transform: translateY(15px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
         @keyframes pulse { 
             0%, 100% { opacity: 0.4; } 
-            50% { opacity: 1; text-shadow: 0 0 10px var(--gold); } 
+            50% { opacity: 1; text-shadow: 0 0 15px var(--accent); } 
         }
 
-        /* Responsive Breakpoints */
         @media (max-width: 768px) {
-            .main-title { font-size: 2.2rem; }
-            .paper-letter { padding: 2.5rem 1.5rem; }
-            .timer-unit { min-width: 70px; padding: 0.8rem; }
-            .timer-unit span { font-size: 1.6rem; }
-            .login-card { padding: 2.5rem 1.5rem; }
+            .moon-container { width: 120px; height: 120px; top: 4%; right: 5%; }
+            .main-title { font-size: 2.4rem; }
+            .paper-letter { padding: 3rem 2rem; }
+            .timer-unit { min-width: 75px; padding: 1rem; }
+            .timer-unit span { font-size: 1.8rem; }
+            .login-card { padding: 3rem 2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Particle Starfield -->
-    <div id="fireflies-container"></div>
+    <canvas id="galaxy-canvas"></canvas>
 
-    <!-- 1. LOGIN PAGE -->
+    <div class="moon-container"></div>
+
+    <audio id="bgm-player" loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="landing-page">
         <div class="glass-panel login-card" id="login-card">
-            <div class="lock-icon-wrapper">🔒</div>
+            <div class="lock-icon-wrapper">✧</div>
             <h2>Project Romeo</h2>
-            <p class="status-text">PHASE 5 ACCESS PORTAL</p>
+            <p class="status-text">LUNAR PHASE ACCESS</p>
             
             <div class="input-group">
                 <input type="password" id="pin" class="pin-input" maxlength="6" placeholder="••••••" inputmode="numeric" onkeyup="handlePinInput(event)">
@@ -623,24 +662,36 @@
         </div>
     </div>
 
-    <!-- 2. INTRO SEQUENCE -->
     <div id="intro-sequence">
-        <p class="intro-text" id="intro-msg">INITIALIZING SYSTEM...</p>
+        <p class="intro-text" id="intro-msg">ALIGNING STARS...</p>
     </div>
 
-    <!-- 3. WHAT'S NEW UPDATE MODAL (Appears after unlock) -->
     <div id="update-modal" class="modal-overlay">
         <div class="glass-panel modal-card">
             <div class="modal-header">
-                <span class="badge-new">PHASE 5 UPDATE</span>
-                <h2>What's New ✨</h2>
+                <span class="badge-new">LUNAR UPDATE</span>
+                <h2>What's New 🌙</h2>
             </div>
             <ul class="update-list">
                 <li>
+                    <span class="update-icon">✨</span>
+                    <div>
+                        <strong>Deep Space Galaxy Redesign</strong>
+                        <p>A completely overhauled blue and purple galaxy background with interactive moving stars and subtle nebula dust.</p>
+                    </div>
+                </li>
+                <li>
                     <span class="update-icon">💖</span>
                     <div>
-                        <strong>5th Monthsary Letter & Bouquet</strong>
-                        <p>A new heartfelt letter & special digital bouquet celebrating our 5th month together.</p>
+                        <strong>6th Monthsary Letter</strong>
+                        <p>A brand new heartfelt letter to celebrate our 6th milestone together.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="update-icon">🎶</span>
+                    <div>
+                        <strong>Background Music Sync</strong>
+                        <p>Immersive background track that plays as you navigate the archive.</p>
                     </div>
                 </li>
                 <li>
@@ -650,31 +701,16 @@
                         <p>Direct secure link to our Google Drive pictures and videos.</p>
                     </div>
                 </li>
-                <li>
-                    <span class="update-icon">🎵</span>
-                    <div>
-                        <strong>Refreshed Playlist</strong>
-                        <p>Added special tracks and updated background music players.</p>
-                    </div>
-                </li>
-                <li>
-                    <span class="update-icon">⚡</span>
-                    <div>
-                        <strong>Phase 5 Dashboard Sync</strong>
-                        <p>Enhanced visuals, ambient firefly effects, and live station clock.</p>
-                    </div>
-                </li>
             </ul>
-            <button class="btn-glow" onclick="closeUpdateModal()">Explore Phase 5 →</button>
+            <button class="btn-glow" onclick="closeUpdateModal()">Explore Phase 6 →</button>
         </div>
     </div>
 
-    <!-- 4. MAIN DASHBOARD -->
     <div id="main-page">
         <div id="home-view">
             <div class="header-section">
                 <div class="sync-text" id="live-clock">SYNCING...</div>
-                <h1 class="main-title">Happy 5th Monthsary, Mahal</h1>
+                <h1 class="main-title">Happy 6th Monthsary, Mahal</h1>
                 
                 <div class="timer-container">
                     <div class="timer-unit"><span id="days">0</span><label>DAYS</label></div>
@@ -685,24 +721,32 @@
             </div>
 
             <div class="gift-grid">
-                <!-- 5th Monthsary Additions -->
-                <button class="menu-btn" onclick="showView('fifth-month-view')">
-                    <span style="font-weight: 600;">✨ 5th Monthsary Letter</span>
+                <button class="menu-btn" onclick="showView('sixth-month-view')">
+                    <span style="font-weight: 600;">✨ 6th Monthsary Letter</span>
                     <span class="badge-new">NEW</span>
+                </button>
+
+                <button class="menu-btn" onclick="showView('fifth-month-view')">
+                    <span>💌 5th Monthsary Archive</span>
+                    <span>→</span>
                 </button>
 
                 <button class="menu-btn" onclick="showView('vault-view')">
                     <span style="font-weight: 600;">📁 Memory Vault</span>
+                    <span>→</span>
+                </button>
+
+                <!-- Digital Book Button -->
+                <button class="menu-btn" onclick="showView('digital-book-view')">
+                    <span style="font-weight: 600;">📖 Digital Book</span>
                     <span class="badge-new">NEW</span>
                 </button>
 
-                <!-- Our Playlist with NEW badge -->
                 <button class="menu-btn" onclick="showView('music-view')">
                     <span style="font-weight: 600;">🎵 Our Playlist</span>
-                    <span class="badge-new">NEW</span>
+                    <span>→</span>
                 </button>
 
-                <!-- Previous Archives -->
                 <button class="menu-btn" onclick="showView('fourth-month-view')">
                     <span>📜 4th Monthsary Archive</span>
                     <span>→</span>
@@ -730,12 +774,169 @@
             </div>
         </div>
 
-        <!-- 5th Monthsary Personal Letter -->
+        <div id="sixth-month-view" class="gift-view">
+            <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
+            <div id="seal-wrapper-6" class="seal-wrapper" onclick="openPaper('main-letter-6', 'seal-wrapper-6')">
+                <div class="wax-seal"></div>
+                <p class="seal-hint">Tap the seal to open your 6th Monthsary letter...</p>
+            </div>
+            <div id="main-letter-6" class="paper-letter">
+                <h2 class="letter-greeting">Hi Mahal,</h2>
+                <div class="letter-body">Happy 6th monthsary sa atin po
+
+I honestly dont even know where to start because there are so many things I want to say to you and so many things I want you to know but I think the first thing I really want to say is thank you Mahal thank you so much for everything for staying for understanding me for being patient with me and most especially for choosing me kahit hindi naman naging perfect ang lahat sa atin
+
+Six months na tayo Mahal and kapag iniisip ko lahat ng nangyari from the beginning hanggang ngayon parang ang dami na talaga nating napagdaanan together We had happy moments we had moments na sobrang saya natin we had times na puro lambing and tawanan but we also had misunderstandings tampuhan arguments and moments na pareho tayong nasaktan or hindi nagkaintindihan There were moments na mabigat and moments na hindi natin alam kung paano aayusin yung situation but despite all of those things we are still here
+
+And that means so much to me Mahal
+
+Because from the beginning hanggang ngayon we keep choosing each other We keep coming back to each other We keep trying to understand each other and we keep finding reasons to stay And honestly Mahal I dont want to take that for granted
+
+I know Im not always the perfect boyfriend for you I know there are times na nagkakamali ako may nasasabi akong hindi ko dapat sabihin may moments na nagiging emotional ako may times na nag ooverthink ako and sometimes I may not know exactly what you need from me But please know that every day I am still trying to become better for you Not because I want you to see me as perfect but because you are someone worth improving myself for
+
+Mahal I want you to know that I dont love you only during the easy days I dont love you only when youre happy and everything between us is okay I love you even during the days when youre tired when you dont feel like talking when youre having a hard time when youre quiet when youre not okay and even when we have misunderstandings
+
+I still choose you
+
+And I will keep choosing you
+
+Hindi ako magsasawang mahalin ka Mahal Hindi ako magsasawang lambingin ka Hindi ako magsasawang sabihin sayo kung gaano kita kamahal Hindi ako magsasawang ipaalala sayo na nandito lang ako I dont want you to ever feel like you have to earn my love by being perfect because Mahal you already mean so much to me just by being yourself
+
+I love the way you are I love your little habits your personality your way of talking your way of being yourself and even the little things you probably dont notice about yourself I love those things because they are part of the person I fell in love with
+
+And Mahal I hope you know how special you are to me
+
+You became someone I dont just want to talk to You became someone I look for Someone I want to tell my stories to Someone I want to share my random thoughts with Someone I want to laugh with Someone I want to comfort when youre sad Someone I want to celebrate with when youre happy
+
+You became someone I genuinely dont want to lose
+
+Sometimes I know I can be clingy and sometimes I just really want to be close to you I want to talk to you I want to hear from you I want to know how your day went I want to know if youre okay I want to remind you to eat rest drink water and take care of yourself Maybe sometimes I have too many things I want to say but its only because I care about you so much
+
+But I also want you to know that my love will never be meant to make you feel trapped or pressured Mahal I want you to have your own space your own time and your own life I want you to be happy and comfortable being yourself because loving you also means understanding you
+
+If there are days when you need to rest I will understand If there are days when you dont have the energy to talk I will understand If there are moments when you need some space I will respect that But even when were not talking please remember that my love for you doesnt suddenly disappear
+
+Magkausap man tayo or hindi physical man tayo magkasama or hindi I will still care about you
+
+I will still choose you
+
+I will still love you
+
+And I will still be here
+
+Mahal thank you for all the memories we have created in these six months Thank you for every good morning every good night every random conversation every lambing every laugh every serious talk every apology every time we fixed something and every little moment that became special simply because it was with you
+
+I will always treasure those moments
+
+And I hope we can create so much more
+
+I dont want this sixth month to just be another milestone I want it to be a reminder of how far we have already come and how much more we can still experience together I know there will still be difficult days ahead I know we will probably still have misunderstandings and tampuhan because were both human and were still learning each other But I hope whenever those moments happen we remember that were on the same side
+
+Its never you against me Mahal
+
+Its always us against the problem
+
+I want us to keep learning how to communicate how to understand each other how to forgive each other and how to love each other better I dont expect us to be perfect I just want us to keep trying
+
+And if ever there comes a time when you feel tired or unsure I hope you remember all the moments when we chose to stay I hope you remember that there is someone here who genuinely wants to understand you and who doesnt want to give up on you easily
+
+I dont want to love you only for a season Mahal
+
+I want to keep loving you through different seasons of our lives
+
+I want to see you grow I want to see you achieve your dreams I want to see you become the person you want to be and if youll allow me I want to be beside you while youre doing all of those things
+
+I want to be someone you can come home to emotionally Someone you can cry to Someone you can laugh with Someone you can tell your problems to without being afraid that Ill judge you I want you to feel safe with me
+
+And yes Mahal I still want your lambing I still want your hugs I still want those little moments with you I still want to hear you say Mahal I still want to make you smile I still want to annoy you sometimes just to get your attention and I still want to be that person who gets excited whenever I see your name on my phone
+
+Six months have passed but honestly my feelings havent become smaller
+
+If anything they became deeper
+
+I love you more now because Ive gotten to know more of you Ive seen different sides of you and somehow I still find myself choosing you again and again
+
+From the beginning until now I never got tired of loving you and I dont plan on getting tired of it
+
+Mahal if I could make one promise to you it would be this
+
+I will continue to choose you
+
+Not because everything will always be easy but because I believe that youre worth choosing even when things get difficult
+
+I will continue to learn you
+
+I will continue to understand you
+
+I will continue to support you
+
+I will continue to care for you
+
+I will continue to love you
+
+And I will continue to appreciate having you in my life
+
+Thank you for being my Mahal Thank you for being part of my life Thank you for giving me six beautiful months with you and thank you for all the memories that I will always keep close to my heart
+
+I know six months is still only a part of our story but I hope its only the beginning of something much longer
+
+I hope we get to celebrate more monthsaries together More birthdays More achievements More random days More dates More memories More hugs More lambing More arguments that we eventually fix More laughter More moments where we look back and say grabe ang layo na pala ng narating natin
+
+I want more of you Mahal
+
+More days with you
+
+More memories with you
+
+More chances to love you
+
+More chances to make you feel loved
+
+And more chances to remind you that you are important to me
+
+So once again happy 6th monthsary Mahal ko
+
+Thank you for staying
+
+Thank you for choosing me
+
+Thank you for loving me
+
+Thank you for being you
+
+I love you more than I can properly put into words and even if I keep saying it every day I still feel like those words will never be enough to explain how much you mean to me
+
+Please never forget that you have someone here who loves you deeply who cares about you genuinely and who will always be grateful that out of all the people in this world somehow I got the chance to love you
+
+Six months down Mahal and hopefully so many more to go
+
+I love you so much Mahal ko
+
+And no matter how many months pass I hope I can still look at you and say
+
+Ikaw pa rin
+
+Ikaw pa rin yung pipiliin ko
+
+Ikaw pa rin yung mamahalin ko
+
+Ikaw pa rin yung gusto kong makasama
+
+At ikaw pa rin yung Mahal ko
+
+Happy 6th monthsary Mahal ko I love you so so much po</div>
+                <p class="letter-signoff">Nagmamahal nang buong puso,<br>JL</p>
+                <div class="bouquet-action">
+                    <a href="https://digibouquet.app/b/bouquet-mtzr9z7v-0a3f8d" target="_blank" class="btn-bouquet">💐 Open 6th Monthsary Bouquet</a>
+                </div>
+            </div>
+        </div>
+
         <div id="fifth-month-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
             <div id="seal-wrapper-5" class="seal-wrapper" onclick="openPaper('main-letter-5', 'seal-wrapper-5')">
                 <div class="wax-seal"></div>
-                <p class="seal-hint">Tap the heart seal to open your 5th Monthsary letter...</p>
+                <p class="seal-hint">Tap the seal to open your 5th Monthsary letter...</p>
             </div>
             <div id="main-letter-5" class="paper-letter">
                 <h2 class="letter-greeting">My Dearest Mahal,</h2>
@@ -756,36 +957,53 @@ Alam ko na pinakita mo sa akin kung paano ka mahalin. Pinaramdam mo sa akin kung
 Happy 5th monthsary sa atin, mahal ko. 🥹❤️ Limang buwan pa lang ito, pero sana marami pa tayong buwan, taon, at memories na pagsasaluhan. Sana kahit dumating yung mga araw na mahirap, huwag tayong basta susuko. Hawakan lang natin ang isa’t isa at sabay nating ayusin.
 
 Hindi ko alam kung ano ang mangyayari sa future, pero ang alam ko, gusto kitang makasama habang ginagawa natin yung future na iyon. Mahal na mahal kita, mahal. At kung may isang bagay na gusto kong hindi magbago kahit kailan, yun ay yung pagmama hal ko sa’yo. ❤️</div>
-                <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
+                <p class="letter-signoff">Nagmamahal nang buong puso,<br>JL</p>
                 <div class="bouquet-action">
                     <a href="https://digibouquet.vercel.app/bouquet/9f6d29f3-1b21-4f62-a6c8-6fce580cdc8c" target="_blank" class="btn-bouquet">💐 Open 5th Monthsary Bouquet</a>
                 </div>
             </div>
         </div>
 
-        <!-- Memory Vault View -->
         <div id="vault-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
-            <div class="glass-panel" style="padding: 3.5rem 2rem; text-align: center;">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2.3rem; margin-bottom: 12px; color: var(--text-main);">📁 Memory Vault</h2>
-                <p style="color: var(--gold); font-family: 'Orbitron'; margin-bottom: 25px; letter-spacing: 2px; font-size: 0.85rem;">SECURE DRIVE REPOSITORY</p>
-                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 35px; color: var(--text-muted); max-width: 600px; margin-left: auto; margin-right: auto;">
+            <div class="glass-panel" style="padding: 4rem 2.5rem; text-align: center;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.6rem; margin-bottom: 15px; color: var(--text-main);">📁 Memory Vault</h2>
+                <p style="color: var(--accent); font-family: 'Orbitron'; margin-bottom: 30px; letter-spacing: 3px; font-size: 0.9rem;">SECURE DRIVE REPOSITORY</p>
+                <p style="font-size: 1.15rem; line-height: 1.9; margin-bottom: 40px; color: var(--text-muted); max-width: 650px; margin-left: auto; margin-right: auto;">
                     A dedicated secure folder storing all our treasured pictures, videos, voice clips, and unforgettable moments captured through time.
                 </p>
-                <div style="background: rgba(139, 92, 246, 0.06); border: 1px dashed rgba(139, 92, 246, 0.4); padding: 35px 20px; border-radius: 18px;">
-                    <a href="https://drive.google.com/drive/folders/1lW-jAXDJUVxLwaSjJ3H8B657pTWDxD1P?usp=sharing" target="_blank" class="btn-bouquet" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                <div style="background: rgba(139, 92, 246, 0.1); border: 1px dashed rgba(168, 85, 247, 0.4); padding: 40px 25px; border-radius: 20px;">
+                    <a href="https://drive.google.com/drive/folders/1lW-jAXDJUVxLwaSjJ3H8B657pTWDxD1P?usp=sharing" target="_blank" class="btn-bouquet">
                         🔗 Open Memory Vault Drive
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 4th Monthsary View -->
+        <!-- Digital Book View with "purple sky book cover.pdf" -->
+        <div id="digital-book-view" class="gift-view">
+            <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
+            <div class="glass-panel" style="padding: 3rem 2rem; text-align: center;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.6rem; margin-bottom: 15px; color: var(--text-main);">📖 Digital Book</h2>
+                <p style="color: var(--accent); font-family: 'Orbitron'; margin-bottom: 25px; letter-spacing: 3px; font-size: 0.9rem;">OUR STORY IN CHAPTERS</p>
+                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; color: var(--text-muted); max-width: 650px; margin-left: auto; margin-right: auto;">
+                    A digital chronicle of our favorite memories, written page by page. Flip through the chapters below.
+                </p>
+                
+                <!-- Embedded PDF Viewer -->
+                <div style="background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(168, 85, 247, 0.3); padding: 15px; border-radius: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
+                    <iframe src="purple sky book cover.pdf" width="100%" height="600px" style="border: none; border-radius: 12px; background: #fff;">
+                        This browser does not support PDFs. Please download the PDF to view it: <a href="purple sky book cover.pdf">Download PDF</a>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
         <div id="fourth-month-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
             <div id="seal-wrapper-4" class="seal-wrapper" onclick="openPaper('main-letter-4', 'seal-wrapper-4')">
                 <div class="wax-seal"></div>
-                <p class="seal-hint">Tap the heart to open your 4th Monthsary letter...</p>
+                <p class="seal-hint">Tap the seal to open your 4th Monthsary letter...</p>
             </div>
             <div id="main-letter-4" class="paper-letter">
                 <h2 class="letter-greeting">My Dearest Mahal,</h2>
@@ -800,19 +1018,18 @@ Gusto ko lang pong sabihin na sana huwag mo akong pagsawaan. Hayaan mo lang po a
 Thank you po kasi ikaw ang naging tahanan ng puso ko. Ikaw ang favorite person ko, ang pahinga ko, at ang taong gusto kong makasama sa lahat ng bagay. Sana marami pa tayong monthsary na sabay nating ipagdiwang hanggang sa maging years na.
 
 Happy 4th monthsary po ulit, mahal ko. Super miss na miss na po kita. Gusto na po kitang mayakap nang mahigpit at hindi na bumitaw. Lagi mong tatandaan na nandito lang po ako, palagi. Mahal na mahal po kita, higit pa sa kaya kong ipaliwanag. Mwahhh.</div>
-                <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
+                <p class="letter-signoff">Nagmamahal nang buong puso,<br>JL</p>
                 <div class="bouquet-action">
                     <a href="https://digibouquet.vercel.app/bouquet/50768206-3d81-4042-be0c-9d12b903f61b" target="_blank" class="btn-bouquet">💐 Open 4th Monthsary Bouquet</a>
                 </div>
             </div>
         </div>
 
-        <!-- 3rd Monthsary View -->
         <div id="third-month-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
             <div id="seal-wrapper-3" class="seal-wrapper" onclick="openPaper('main-letter-3', 'seal-wrapper-3')">
                 <div class="wax-seal"></div>
-                <p class="seal-hint">Tap the heart to open your 3rd Monthsary letter...</p>
+                <p class="seal-hint">Tap the seal to open your 3rd Monthsary letter...</p>
             </div>
             <div id="main-letter-3" class="paper-letter">
                 <h2 class="letter-greeting">My Dearest Mahal,</h2>
@@ -839,19 +1056,18 @@ Happy 3rd Monthsary asawa koooo. 💜🥺
 Mahal na mahal po kita. Lagi mong tandaan na may isang taong naniniwala sa iyo, proud sa iyo at handang piliin ka araw araw. Ikaw ang isa sa pinakamagandang nangyari sa buhay ko at sobrang nagpapasalamat ako na ikaw ang kasama ko ngayon.
 
 I love you so much asawa ko. Ngayon, bukas at sa mga susunod pang buwan at taon. Mwahhhh. 💜😘✨</div>
-                <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
+                <p class="letter-signoff">Nagmamahal nang buong puso,<br>JL</p>
                 <div class="bouquet-action">
                     <a href="https://digibouquet.vercel.app/bouquet/e30cde7d-ed70-4474-a4a3-3d5a462ada76" target="_blank" class="btn-bouquet">💐 Open 3rd Monthsary Bouquet</a>
                 </div>
             </div>
         </div>
 
-        <!-- 2nd Monthsary View -->
         <div id="letter-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return to Dashboard</button>
             <div id="seal-wrapper-2" class="seal-wrapper" onclick="openPaper('main-letter-2', 'seal-wrapper-2')">
                 <div class="wax-seal"></div>
-                <p class="seal-hint">Tap the heart to read my promise...</p>
+                <p class="seal-hint">Tap the seal to read my promise...</p>
             </div>
             <div id="main-letter-2" class="paper-letter">
                 <h2 class="letter-greeting">My Dearest Mahal,</h2>
@@ -866,34 +1082,32 @@ At alam ko rin na hindi lang ito ang dahilan kung bakit minsan ay malungkot o ma
 Ito ang pinaka sigurado at tapat kong pangako sa’yo: hindi kita iiwan, mahal. Ngayon, bukas, at sa habang panahon. Hahawakan kita nang mahigpit sa bawat mahirap na usapan, sa bawat gabing umiiyak ka, sa bawat araw na pagod ka, at sa bawat sandaling pakiramdam mo ay susuko ka na. Hindi ka lang basta girlfriend para sa akin, ikaw ang kapareha ko, ang matalik kong kaibigan, ang kapayapaan ko, at ang taong gusto kong makasama habang buhay.
 
 Happy 2nd Monthsary, mahal ko. Nandito lang ako, palagi at habang buhay.</div>
-                <p class="letter-signoff">Nagmamahal nang buong puso,<br>Romeo</p>
+                <p class="letter-signoff">Nagmamahal nang buong puso,<br>JL</p>
                 <div class="bouquet-action">
                     <a href="https://digibouquet.net/create-bouquet?b=JTdCJTIyZiUyMiUzQSU1QiUyMm9yY2hpZCUyMiUyQyUyMmNhbWVsbGlhJTIyJTJDJTIyZGFpc3klMjIlMkMlMjJsb3R1cyUyMiUtQyUyMnR1bGlwJTIyJTJDJTIypGVvbnklMjIlMkMlMjJyb3NlJTIyJTJDJTIybGlseSUyMiU1RCUyQyUyMmSelection%202" target="_blank" class="btn-bouquet">💐 Open 2nd Monthsary Bouquet</a>
                 </div>
             </div>
         </div>
 
-        <!-- 1st Monthsary View -->
         <div id="archive-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return</button>
-            <div class="glass-panel" style="padding: 3rem; text-align: center;">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2rem; margin-bottom: 10px;">The First Milestone</h2>
-                <p style="color: var(--gold); font-family: 'Orbitron'; margin-bottom: 25px; letter-spacing: 2px;">April 14, 2026</p>
-                <p style="font-size: 1.15rem; font-style: italic; margin-bottom: 35px; color: var(--text-muted);">
+            <div class="glass-panel" style="padding: 4rem 2rem; text-align: center;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 15px;">The First Milestone</h2>
+                <p style="color: var(--accent); font-family: 'Orbitron'; margin-bottom: 30px; letter-spacing: 3px;">April 14, 2026</p>
+                <p style="font-size: 1.2rem; font-style: italic; margin-bottom: 45px; color: var(--text-muted);">
                     "Salamat sa pagtitiwala sa akin, sa pagbukas ng iyong puso, at sa pagiging ikaw mismo."
                 </p>
-                <div style="background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.4); padding: 30px; border-radius: 15px;">
+                <div style="background: rgba(139, 92, 246, 0.12); border: 1px dashed rgba(168, 85, 247, 0.4); padding: 35px; border-radius: 18px;">
                     <a href="https://digibouquet.vercel.app/bouquet/0382aca8-4b69-486e-b6c6-7f02b69eb11a" target="_blank" class="btn-bouquet">🌸 Open Your 1st Bouquet</a>
                 </div>
             </div>
         </div>
 
-        <!-- Birthday Message -->
         <div id="bday-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return</button>
-            <div class="paper-letter" style="display: block; background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid var(--gold); backdrop-filter: blur(10px);">
-                <h3 style="font-family: 'Dancing Script'; font-size: 2.8rem; margin-bottom: 2rem; color: var(--gold); text-align: center;">Happy 17th Birthday, mahal ko.</h3>
-                <div style="opacity: 0.95; line-height: 1.8; font-size: 1.05rem; white-space: pre-wrap; font-weight: 300;">This is from someone unexpected… someone who didn’t plan to walk into your life, but somehow found a place in it anyway. And even if I came quietly and without warning, please know I’m here with genuine intentions and a heart that cares deeply for you.
+            <div class="paper-letter" style="display: block; background: rgba(15, 10, 36, 0.8); color: #fff; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.7);">
+                <h3 style="font-family: 'Dancing Script'; font-size: 3.2rem; margin-bottom: 2.5rem; color: var(--gold); text-align: center;">Happy 17th Birthday, mahal ko.</h3>
+                <div style="opacity: 0.95; line-height: 1.9; font-size: 1.1rem; white-space: pre-wrap; font-weight: 300; color: #f8fafc;">This is from someone unexpected… someone who didn’t plan to walk into your life, but somehow found a place in it anyway. And even if I came quietly and without warning, please know I’m here with genuine intentions and a heart that cares deeply for you.
 
 On your special day, I just want to remind you that you are seen, appreciated, and loved in ways you may not always realize. I know life hasn’t always been easy, and there are moments when you carry things silently, but you don’t have to face everything alone. I’m here, not just for the happy moments, but also for the days when things feel heavy.
 
@@ -903,58 +1117,47 @@ And because you’re that special to me, I made something just for you, a websit
 
 I hope this year brings you peace in your heart, clarity in your mind, and warmth in your soul. And in all the uncertainty life brings, I hope you feel one thing clearly, I’m here for you, mahal ko.
 
-Happy Birthday again. You mean more than you think. 💜💙</div>
+Happy Birthday again. You mean more than you think. 🌙💙</div>
             </div>
         </div>
 
-        <!-- Playlist View -->
         <div id="music-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return</button>
-            <div class="glass-panel" style="padding: 2.5rem 1.8rem; text-align: center;">
-                <h2 style="font-family: 'Playfair Display'; font-size: 2.2rem; margin-bottom: 8px; color: var(--text-main);">🎵 Our Playlist</h2>
-                <p style="color: var(--gold); font-family: 'Orbitron'; margin-bottom: 30px; letter-spacing: 2px; font-size: 0.8rem;">THE SOUNDTRACK OF US</p>
+            <div class="glass-panel" style="padding: 3rem 2rem; text-align: center;">
+                <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 12px; color: var(--text-main);">🎵 Our Playlist</h2>
+                <p style="color: var(--accent); font-family: 'Orbitron'; margin-bottom: 35px; letter-spacing: 3px; font-size: 0.9rem;">THE SOUNDTRACK OF US</p>
                 
-                <!-- 1. Background Theme Song -->
-                <div style="margin-bottom: 2.2rem; background: rgba(59, 130, 246, 0.08); padding: 1.2rem; border-radius: 18px; border: 1px solid rgba(59, 130, 246, 0.25);">
-                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; font-weight: 600;">✨ Background / Theme Song</p>
-                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.5);" src="https://open.spotify.com/embed/track/4FdQYoWFym37QDQ2GkEHi1?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <div style="margin-bottom: 2.5rem; background: rgba(56, 189, 248, 0.08); padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(56, 189, 248, 0.25);">
+                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; font-weight: 600;">✨ Background / Theme Song</p>
+                    <iframe style="border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);" src="https://open.spotify.com/embed/track/4FdQYoWFym37QDQ2GkEHi1?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
 
-                <!-- 2. Main Song -->
-                <div style="margin-bottom: 2.2rem; background: rgba(139, 92, 246, 0.08); padding: 1.2rem; border-radius: 18px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: #c084fc; letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; font-weight: 600;">🌟 Main Song</p>
-                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.5);" src="https://open.spotify.com/embed/track/4WgViu9gw3qYOr3iF9OuLG?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <div style="margin-bottom: 2.5rem; background: rgba(139, 92, 246, 0.12); padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: #d8b4fe; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; font-weight: 600;">🌟 Main Song</p>
+                    <iframe style="border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);" src="https://open.spotify.com/embed/track/4WgViu9gw3qYOr3iF9OuLG?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
 
-                <!-- 3. Additional Songs & Original Track -->
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 2px; margin-top: 0.5rem; text-transform: uppercase; font-weight: 600;">💬 Special Tracks</p>
+                <div style="display: flex; flex-direction: column; gap: 1.8rem;">
+                    <p style="font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 2px; margin-top: 0.5rem; text-transform: uppercase; font-weight: 600;">💬 Special Tracks</p>
                     
-                    <!-- Original Song -->
-                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/0xJ4Qk9lIisIjOrI8bLkNP?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/0JzwzRDkwZr8s1WRfNgUqA?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    
-                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/7aW2GrNlteWTwQZxX6LNjT?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    
-                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/13QQ8OerNguc4eR4qtd6SQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
-                    <!-- Newly Added Track -->
-                    <iframe style="border-radius:14px; box-shadow: 0 6px 18px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/1iphKsRTqRl7KZeOZwILGF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/0xJ4Qk9lIisIjOrI8bLkNP?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/0JzwzRDkwZr8s1WRfNgUqA?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/7aW2GrNlteWTwQZxX6LNjT?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/13QQ8OerNguc4eR4qtd6SQ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius:14px; box-shadow: 0 8px 25px rgba(0,0,0,0.4);" src="https://open.spotify.com/embed/track/1iphKsRTqRl7KZeOZwILGF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
 
-                <p style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: var(--gold); margin-top: 35px; line-height: 1.6;">
+                <p style="font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold); margin-top: 45px; line-height: 1.6;">
                     "Pinipili kita, makasama sa pagtanda.<br>
                     Araw-araw walang iba, sa piling mo payapa na."
                 </p>
             </div>
         </div>
 
-        <!-- Romeo Log View -->
         <div id="interview-view" class="gift-view">
             <button class="back-btn" onclick="goHome()">← Return</button>
-            <div class="glass-panel" style="padding: 3rem 2rem;">
-                <h2 style="font-family: 'Playfair Display'; color: var(--text-main); text-align: center; margin-bottom: 2.5rem; font-size: 2.2rem;">Project Active: Romeo</h2>
+            <div class="glass-panel" style="padding: 3.5rem 2.5rem;">
+                <h2 style="font-family: 'Playfair Display'; color: var(--text-main); text-align: center; margin-bottom: 3rem; font-size: 2.4rem;">Project Active: Romeo</h2>
                 
                 <div class="qa-block">
                     <p class="qa-q">Q: What is the purpose of this project?</p>
@@ -971,8 +1174,8 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                     <p class="qa-a" style="font-style: italic;">It is for her. Entirely. Every line of code, every color choice, and every hidden detail was designed with her smile in mind. It’s a reminder that even in a digital world, my intentions for her are real and permanent.</p>
                 </div>
 
-                <p style="text-align: center; color: var(--gold); font-family: 'Orbitron'; font-size: 0.9rem; margin-top: 3rem; letter-spacing: 3px;">
-                    STATUS: ACTIVE (PHASE 5)
+                <p style="text-align: center; color: var(--accent); font-family: 'Orbitron'; font-size: 0.95rem; margin-top: 3.5rem; letter-spacing: 4px;">
+                    STATUS: LUNAR PHASE ACTIVE
                 </p>
             </div>
         </div>
@@ -980,9 +1183,109 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
 
     <script>
         const PIN = "031426";
-        const targetDate = new Date("2026-08-14T00:00:00").getTime();
+        const targetDate = new Date("2026-09-14T00:00:00").getTime();
 
-        // Pin typing listener
+        const canvas = document.getElementById('galaxy-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        });
+
+        class Star {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.baseAlpha = Math.random() * 0.7 + 0.3;
+                this.alpha = this.baseAlpha;
+                this.vx = (Math.random() - 0.5) * 0.3; 
+                this.vy = (Math.random() - 0.5) * 0.3; 
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.twinkleFactor = Math.random() * Math.PI;
+
+                const colors = ['#ffffff', '#a855f7', '#38bdf8', '#c084fc', '#60a5fa'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.twinkleFactor += this.twinkleSpeed;
+                this.alpha = this.baseAlpha + Math.sin(this.twinkleFactor) * 0.3;
+                if (this.alpha < 0.1) this.alpha = 0.1;
+                if (this.alpha > 1) this.alpha = 1;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (this.size > 1.5) {
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = this.color;
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        let stars = [];
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 3000); 
+            for (let i = 0; i < count; i++) {
+                stars.push(new Star());
+            }
+        }
+
+        function drawNebula() {
+            const g1 = ctx.createRadialGradient(width * 0.2, height * 0.3, 50, width * 0.2, height * 0.3, width * 0.6);
+            g1.addColorStop(0, 'rgba(56, 189, 248, 0.12)');
+            g1.addColorStop(1, 'rgba(3, 0, 20, 0)');
+            ctx.fillStyle = g1;
+            ctx.fillRect(0, 0, width, height);
+
+            const g2 = ctx.createRadialGradient(width * 0.75, height * 0.7, 50, width * 0.75, height * 0.7, width * 0.5);
+            g2.addColorStop(0, 'rgba(139, 92, 246, 0.15)');
+            g2.addColorStop(1, 'rgba(3, 0, 20, 0)');
+            ctx.fillStyle = g2;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function animateGalaxy() {
+            ctx.clearRect(0, 0, width, height);
+            drawNebula();
+            
+            for (let star of stars) {
+                star.update();
+                star.draw();
+            }
+            requestAnimationFrame(animateGalaxy);
+        }
+
+        initStars();
+        animateGalaxy();
+
         function handlePinInput(event) {
             const input = document.getElementById('pin');
             const error = document.getElementById('error-msg');
@@ -996,25 +1299,30 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
             }
         }
 
-        // Security / Login logic
         function startIntroSequence() {
             const pinInput = document.getElementById('pin');
             const card = document.getElementById('login-card');
             const errorMsg = document.getElementById('error-msg');
+            const bgm = document.getElementById('bgm-player');
 
             if (pinInput.value === PIN) {
                 errorMsg.classList.remove('visible');
                 document.getElementById('landing-page').style.display = 'none';
                 
+                if (bgm) {
+                    bgm.volume = 0.5;
+                    bgm.play().catch(e => console.log("Audio autoplay prevented by browser"));
+                }
+
                 const intro = document.getElementById('intro-sequence');
                 const msg = document.getElementById('intro-msg');
                 intro.style.display = 'flex';
 
                 const lines = [
-                    "INITIALIZING SYSTEM...",
-                    "LOADING MEMORIES FOR MAHAL...",
+                    "ALIGNING STARS...",
+                    "GATHERING PURPLE MOONLIGHT...",
                     "SYNCING HEARTBEATS...",
-                    "PROJECT ROMEO: PHASE 5 ACTIVE"
+                    "PROJECT ROMEO: LUNAR PHASE ACTIVE"
                 ];
                 
                 let i = 0;
@@ -1031,7 +1339,6 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                                 document.getElementById('main-page').style.display = 'block';
                                 setTimeout(() => document.getElementById('main-page').style.opacity = '1', 50);
                                 initApp();
-                                // Trigger 'What's New' Modal after unlock
                                 document.getElementById('update-modal').style.display = 'flex';
                             }, 1000);
                         }, 1200);
@@ -1050,7 +1357,6 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
             }
         }
 
-        // Close 'What's New' Modal
         function closeUpdateModal() {
             const modal = document.getElementById('update-modal');
             modal.style.opacity = '0';
@@ -1061,7 +1367,6 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
             }, 300);
         }
 
-        // Navigation
         function showView(id) {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById(id).style.display = 'block';
@@ -1072,8 +1377,8 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
             document.querySelectorAll('.gift-view').forEach(v => v.style.display = 'none');
             document.getElementById('home-view').style.display = 'block';
             
-            const letters = ['main-letter-5', 'main-letter-4', 'main-letter-3', 'main-letter-2'];
-            const seals = ['seal-wrapper-5', 'seal-wrapper-4', 'seal-wrapper-3', 'seal-wrapper-2'];
+            const letters = ['main-letter-6', 'main-letter-5', 'main-letter-4', 'main-letter-3', 'main-letter-2'];
+            const seals = ['seal-wrapper-6', 'seal-wrapper-5', 'seal-wrapper-4', 'seal-wrapper-3', 'seal-wrapper-2'];
             
             letters.forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).style.display = 'none';
@@ -1085,13 +1390,11 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Letter Opening Logic
         function openPaper(letterId, sealId) {
             document.getElementById(sealId).style.display = 'none';
             document.getElementById(letterId).style.display = 'block';
         }
 
-        // Core App Logic (Timers & Effects)
         function initApp() {
             setInterval(() => {
                 const now = new Date().getTime();
@@ -1108,39 +1411,7 @@ Happy Birthday again. You mean more than you think. 💜💙</div>
                     document.querySelectorAll('.timer-unit span').forEach(el => el.innerText = "0");
                 }
             }, 1000);
-
-            // Ambient Sky Particles
-            const container = document.getElementById('fireflies-container');
-            container.innerHTML = "";
-            for (let i = 0; i < 45; i++) {
-                let f = document.createElement('div');
-                f.className = 'firefly';
-                f.style.left = Math.random() * 100 + 'vw';
-                f.style.top = Math.random() * 100 + 'vh';
-                
-                f.style.setProperty('--dir-x', Math.random());
-                f.style.setProperty('--dir-y', Math.random());
-                
-                f.style.animation = `float ${10 + Math.random() * 15}s infinite linear`;
-                f.style.animationDelay = `-${Math.random() * 10}s`;
-                container.appendChild(f);
-            }
         }
-
-        window.onload = function() {
-            const container = document.getElementById('fireflies-container');
-            for (let i = 0; i < 35; i++) {
-                let f = document.createElement('div');
-                f.className = 'firefly';
-                f.style.left = Math.random() * 100 + 'vw';
-                f.style.top = Math.random() * 100 + 'vh';
-                f.style.setProperty('--dir-x', Math.random());
-                f.style.setProperty('--dir-y', Math.random());
-                f.style.animation = `float ${10 + Math.random() * 15}s infinite linear`;
-                f.style.animationDelay = `-${Math.random() * 10}s`;
-                container.appendChild(f);
-            }
-        };
     </script>
 </body>
 </html>
